@@ -3,7 +3,6 @@ package com.lt.note.dal.impl;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -44,21 +43,12 @@ public class FileNotesDAO implements NotesDAO {
 
 			}
 
+			bufferReaderNote.close();
+
 		} catch (IOException ex) {
 
 			throw new DAOException(ex);
 
-		} finally {
-
-			try {
-				
-				bufferReaderNote.close();
-				
-			} catch (IOException e) {
-				
-				e.printStackTrace();
-				
-			}
 		}
 
 	}

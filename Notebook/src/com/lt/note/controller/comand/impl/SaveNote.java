@@ -2,10 +2,9 @@ package com.lt.note.controller.comand.impl;
 
 import com.lt.note.controller.CommandResponse;
 import com.lt.note.controller.comand.Command;
-import com.lt.note.dal.DAOProvider;
-import com.lt.note.dal.NotesDAO;
-import com.lt.note.dal.exception.DAOException;
 import com.lt.note.entity.Note;
+import com.lt.note.service.NotesCreateService;
+import com.lt.note.service.ServiceProvider;
 import com.lt.note.service.exception.ServiceException;
 
 public class SaveNote implements Command {
@@ -13,29 +12,27 @@ public class SaveNote implements Command {
 	private final char paramDelimeter = ' ';
 
 	@Override
-	public CommandResponse saveNote(String request) throws DAOException {
+	public CommandResponse execute(String request) {
 
-		String saveNote = request.substring(request.indexOf(paramDelimeter));
+		String req = request.substring(request.indexOf(paramDelimeter));
 
-		Note note = new Note();
+		ServiceProvider serviceProvider = ServiceProvider.getInstance();
+		NotesCreateService notesCreateService = serviceProvider.getNotesCreateService();
 
-		DAOProvider provider = DAOProvider.getInstance();
-
-		NotesDAO notesDAO = provider.getNotesDAO();
+		Note note = new Note(null, req);
 
 		try {
 
-			notesDAO.save(note);
+			notesCreateService.add(note);
 
 			return new CommandResponse("Note saved");
 
 		}
 
-		catch (DAOException ex) {
+		catch (ServiceException ex) {
 
 			return new CommandResponse("Note not saved ");
 
 		}
-
 	}
 }

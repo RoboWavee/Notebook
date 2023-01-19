@@ -17,6 +17,8 @@ public class NotesFindServiceImpl implements NotesFindService {
 
 	private final static NotesDAO notesDAO = provider.getNotesDAO();
 
+	private final static NotesDataValidationImpl isNotesValid = new NotesDataValidationImpl();
+
 	@Override
 	public List<Note> findByContent(String content) throws ServiceException {
 
@@ -28,15 +30,18 @@ public class NotesFindServiceImpl implements NotesFindService {
 
 			for (Note nt : sourceList) {
 
-				if (nt.getContent().contains(content)) {
+				if (isNotesValid.isContentNotEmpty(nt.getContent())) {
 
-					resultNote.add(nt);
+					if (nt.getContent().contains(content)) {
+
+						resultNote.add(nt);
+					}
 				}
 			}
 
-		} catch (DAOException e) {
+		} catch (DAOException ex) {
 
-			throw new ServiceException();
+			throw new ServiceException(ex);
 
 		}
 
@@ -60,9 +65,9 @@ public class NotesFindServiceImpl implements NotesFindService {
 				}
 			}
 
-		} catch (DAOException e) {
+		} catch (DAOException ex) {
 
-			throw new ServiceException();
+			throw new ServiceException(ex);
 
 		}
 

@@ -9,31 +9,30 @@ import com.lt.note.service.exception.ServiceException;
 
 public class NotesCreateServiceImpl implements NotesCreateService {
 
+	private final static DAOProvider provider = DAOProvider.getInstance();
+
+	private final static NotesDAO notesDAO = provider.getNotesDAO();
+
+	private final static NotesDataValidationImpl isNotesValid = new NotesDataValidationImpl();
+
 	@Override
 	public void add(Note note) throws ServiceException {
 
-		DAOProvider provider = DAOProvider.getInstance();
+		if (isNotesValid.isContentNotEmpty(note.getContent())) {
 
-		NotesDAO notesDAO = provider.getNotesDAO();
+			try {
 
-		if (note == null) {
+				notesDAO.save(note);
 
-			throw new ServiceException("No records");
+			}
 
-		}
+			catch (DAOException ex) {
 
-		try {
+				throw new ServiceException(ex);
 
-			notesDAO.save(note);
-
-		}
-
-		catch (DAOException ex) {
-
-			throw new ServiceException(ex);
+			}
 
 		}
 
 	}
-
 }

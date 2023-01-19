@@ -1,16 +1,15 @@
 package com.lt.note.controller;
 
 import com.lt.note.controller.comand.Command;
-import com.lt.note.dal.exception.DAOException;
-import com.lt.note.service.exception.ServiceException;
 
-public final class Controller {
+
+public class Controller {
 
 	private final CommandProvider provider = new CommandProvider();
 
 	private final char paramDelimeter = ' ';
 
-	public CommandResponse executeTask(String request) throws DAOException, ServiceException {
+	public CommandResponse executeTask(String request) {
 
 		String commandName;
 		Command executionCommand;

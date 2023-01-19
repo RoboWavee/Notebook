@@ -1,10 +1,14 @@
 package com.lt.note.controller;
 
+import java.util.List;
+
+import com.lt.note.entity.Note;
+
 public class CommandResponse {
 
 	private String commandResponse;
 
-	public CommandResponse() {
+	public CommandResponse(List<Note> list) {
 
 	}
 

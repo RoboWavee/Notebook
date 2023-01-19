@@ -10,10 +10,12 @@ public class Note {
 
 	public Note() {
 
+		super();
+
 	}
 
 	public Note(LocalDateTime date, String content) {
-		super();
+
 		this.date = date;
 		this.content = content;
 
